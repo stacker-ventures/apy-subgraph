@@ -1,0 +1,60 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "profit",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "totalAmountInPool",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "totalSharesInPool",
+        "type": "uint256"
+      }
+    ],
+    "name": "ProfitDeclared",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "bool", "name": "profit", "type": "bool" },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "internalType": "uint256", "name": "timestamp", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "totalAmountInPool",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalSharesInPool",
+        "type": "uint256"
+      }
+    ],
+    "name": "declareProfit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

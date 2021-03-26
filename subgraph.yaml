@@ -1,0 +1,23 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Statistics
+    network: ropsten
+    source:
+      address: "0xcF58841e9AdBc1047c504C7585f280ce6f5e6e46"
+      abi: Statistics
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - ProfitDeclared
+      abis:
+        - name: Statistics
+          file: ./abis/Statistics.json
+      eventHandlers:
+        - event: ProfitDeclared(bool,uint256,uint256,uint256,uint256)
+          handler: handleProfitDeclared
+      file: ./src/mapping.ts
