@@ -39,3 +39,5 @@ Reference to Truffle's documentation [here](https://www.trufflesuite.com/docs/tr
 - Create subgraph related to this project [here](https://thegraph.com/explorer/subgraph/create?account=All%20Subgraphs).
 
 - Update `package.json` scripts to point to the correct subgraph by replacing `organization/tired-subgraph` with the correct subgraph name.
+
+- Update the current `subgraph.yaml` file to add the correct contract address when we go live into prod.
