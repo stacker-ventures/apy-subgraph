@@ -20,6 +20,8 @@ In order to update the current Subgraph, the following steps are to be taken:
 
 You can find a documentation on how to create a subgraph from scratch [here](https://thegraph.com/docs/quick-start#local-development).
 
+The reference to AssemblyScript can be found [here](https://www.assemblyscript.org/introduction.html) and the API support for AssemblyScript in The Graph mappers can be found [here](https://thegraph.com/docs/assemblyscript-api).
+
 ## Using Truffle to develop Subgraph Smart Contracts
 
 - You can code your smart contracts in the `contracts` folder
