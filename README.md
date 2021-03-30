@@ -12,7 +12,9 @@ In order to update the current Subgraph, the following steps are to be taken:
 
 - Add your new schemas on the `schema.graphql` file, this file updating this file requires at GraphQL basic knowledge about modeling data.
 
-- Update the `subgraph.yaml` file to add new data-sources (smart contracts) and their respective configurations. You can follow the current setup as a guide. In short, you want to add a new data-source under the `dataSources` array, using `yaml` syntax.
+- Make sure you add the ABI in a json file in the `abis` folder.
+
+- Update the `subgraph.yaml` file to add new data-sources (smart contracts) and their respective configurations. You can follow the current setup as a guide. In short, you want to add a new data-source under the `dataSources` array, using `yaml` syntax. Remember to reference the ABI you created in the step before, as part of the `yaml` config in this file.
 
 - After updating the schema and the subgraph config, you need to run `yarn codegen` or `npm run codegen`. This will generate the AssemblyScript typings for all the schemas and will update the `src/mapping.ts` to reflect any new event handler on any of the declared contracts.
 
