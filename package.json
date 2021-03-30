@@ -1,16 +1,20 @@
 {
-  "name": "statistics-vy-graph",
+  "name": "statistics",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ vyzaldysanchez/statistics-vy-graph",
-    "create-local": "graph create --node http://localhost:8020/ vyzaldysanchez/statistics-vy-graph",
-    "remove-local": "graph remove --node http://localhost:8020/ vyzaldysanchez/statistics-vy-graph",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 vyzaldysanchez/statistics-vy-graph"
+    "asbuild": "graph build",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ organization/tired-subgraph",
+    "create-local": "graph create organization/tired-subgraph --node http://localhost:8020/",
+    "remove-local": "graph remove --node http://localhost:8020/ organization/tired-subgraph",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 organization/tired-subgraph"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.20.0",
-    "@graphprotocol/graph-ts": "0.20.0"
+    "@graphprotocol/graph-ts": "0.20.0",
+    "truffle": "^5.0.4",
+    "truffle-contract": "^4.0.5",
+    "truffle-hdwallet-provider": "^1.0.4"
   }
 }
