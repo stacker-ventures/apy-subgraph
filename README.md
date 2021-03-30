@@ -2,6 +2,10 @@
 
 This project holds a subgraph that is available for query on [The Graph](https://thegraph.com/). Access to the hosted data is enabled via GraphQL.
 
+This is the subgraph source code, which contains the subgraph manifest and the `mappers` code. The way [The Graph](https://thegraph.com/) is by using subgraph to index data. The service listens to the events emitted by the defined contracts in the manifest, and based on the coded configuration, it will handle the events via the mappers in the `src/mapping.ts` file. The file will contain a function for each event that the subgraph is configured to listen to.
+
+The service will store the data that the mappers tell it to store, and it will make it available via GraphQL for querying purposes.
+
 ## Subgraph Development
 
 In order to update the current Subgraph, the following steps are to be taken:
@@ -10,7 +14,7 @@ In order to update the current Subgraph, the following steps are to be taken:
 
 - Update the `subgraph.yaml` file to add new data-sources (smart contracts) and their respective configurations. You can follow the current setup as a guide. In short, you want to add a new data-source under the `dataSources` array, using `yaml` syntax.
 
-- After updating the schema and the subgraph config, you need to run `yarn codegen` or `npm run codegen`. This will generate the AssemblyScript typings for all the schemas and will update the `mappings.ts` to reflect any new event handler on any of the declared contracts.
+- After updating the schema and the subgraph config, you need to run `yarn codegen` or `npm run codegen`. This will generate the AssemblyScript typings for all the schemas and will update the `src/mapping.ts` to reflect any new event handler on any of the declared contracts.
 
 - In order to deploy your changes, just run `yarn build && yarn deploy`. This will make your changes available in [The Graph](https://thegraph.com/) hosted service and the subgraph will sync against the network.
 
