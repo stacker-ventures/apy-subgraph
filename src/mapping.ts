@@ -1,45 +1,92 @@
 import { BigInt } from "@graphprotocol/graph-ts"
-import { Statistics, ProfitDeclared } from "../generated/Statistics/Statistics"
-import { ExampleEntity } from "../generated/schema"
+
+import { ProfitDeclared } from "../generated/Statistics/Statistics"
+import { Profit, ProfitCounter, GeneralStatistics } from "../generated/schema"
 
 export function handleProfitDeclared(event: ProfitDeclared): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
+  let dayInMs = BigInt.fromI32(86400000)
+  let weekInMs = BigInt.fromI32(604800000)
+  let monthInMs = BigInt.fromI32(2629800000)
 
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (entity == null) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
+  let zero = BigInt.fromI32(0)
+  let one = BigInt.fromI32(1)
 
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
+  // Handles counter updates
+  let initialCounterHexId = one.toHex();
+  let counter = ProfitCounter.load(initialCounterHexId)
+
+  if (counter == null) {
+    counter = new ProfitCounter(initialCounterHexId)
+
+    counter.count = one
+  } else {
+    counter.count = one.plus(counter.count)
   }
 
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
+  counter.save()
 
-  // Entity fields can be set based on event parameters
-  entity.profit = event.params.profit
-  entity.amount = event.params.amount
+  // Handles profit record creation
+  let profit = new Profit(counter.count.toHex())
 
-  // Entities can be written to the store with `.save()`
-  entity.save()
+  profit.profit = event.params.profit
+  profit.amount = event.params.amount
+  profit.timestamp = event.params.timestamp
+  profit.totalAmountInPool = event.params.totalAmountInPool
+  profit.totalSharesInPool = event.params.totalSharesInPool
 
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
+  profit.save()
 
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // None
+  // APY Calculations...
+  let initialProfit = profit.id == initialCounterHexId ? profit : Profit.load(initialCounterHexId)
+
+  let statistics = GeneralStatistics.load(initialCounterHexId)
+
+  if (statistics == null) {
+    statistics = new GeneralStatistics(initialCounterHexId)
+  }
+
+  statistics.APY_all_time = calculateAPY(profit, initialProfit as Profit)
+
+  let nextIdToFetch = counter.count.minus(one)
+
+  if (nextIdToFetch.equals(zero)) {
+    statistics.APY_past_day = zero
+    statistics.APY_past_week = zero
+    statistics.APY_past_month = zero
+  }
+
+  let now = event.block.timestamp
+
+  while (nextIdToFetch.gt(zero)) {
+    let previousProfit = Profit.load(nextIdToFetch.toHex())
+
+    if (previousProfit == null) {
+      break;
+    }
+
+    if (now.minus(previousProfit.timestamp).ge(monthInMs) && statistics.APY_past_month !== zero) {
+      statistics.APY_past_month = calculateAPY(profit, previousProfit as Profit)
+
+      break
+    }
+
+    if (now.minus(previousProfit.timestamp).ge(weekInMs) && statistics.APY_past_week !== zero) {
+      statistics.APY_past_week = calculateAPY(profit, previousProfit as Profit)
+    } else if (now.minus(previousProfit.timestamp).ge(dayInMs) && statistics.APY_past_day !== zero) {
+      statistics.APY_past_day = calculateAPY(profit, previousProfit as Profit)
+    }
+
+    nextIdToFetch = nextIdToFetch.minus(one)
+  }
+
+  statistics.save()
+}
+
+function calculateAPY(currentProfit: Profit, intervalProfit: Profit): BigInt {
+  let one = BigInt.fromI32(1)
+
+  return currentProfit.totalAmountInPool
+    .div(intervalProfit.totalAmountInPool)
+    .minus(one)
+    .times(BigInt.fromI32(100))
 }

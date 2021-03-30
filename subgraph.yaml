@@ -1,4 +1,4 @@
-specVersion: 0.0.1
+specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
@@ -6,11 +6,12 @@ dataSources:
     name: Statistics
     network: ropsten
     source:
-      address: "0xcF58841e9AdBc1047c504C7585f280ce6f5e6e46"
+      address: "0x0dF5985B5f91a26864467Dae4e4d2638b8890A50"
       abi: Statistics
+      startBlock: 9936080
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.2
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - ProfitDeclared
