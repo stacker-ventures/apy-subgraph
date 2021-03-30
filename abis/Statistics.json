@@ -31,6 +31,18 @@
         "internalType": "uint256",
         "name": "totalSharesInPool",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "performanceFeeTotal",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "baseFeeTotal",
+        "type": "uint256"
       }
     ],
     "name": "ProfitDeclared",
@@ -38,9 +50,21 @@
   },
   {
     "inputs": [
-      { "internalType": "bool", "name": "profit", "type": "bool" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" },
-      { "internalType": "uint256", "name": "timestamp", "type": "uint256" },
+      {
+        "internalType": "bool",
+        "name": "profit",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      },
       {
         "internalType": "uint256",
         "name": "totalAmountInPool",
@@ -49,6 +73,16 @@
       {
         "internalType": "uint256",
         "name": "totalSharesInPool",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "performanceFeeTotal",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "baseFeeTotal",
         "type": "uint256"
       }
     ],

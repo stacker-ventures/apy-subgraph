@@ -86,6 +86,24 @@ export class Profit extends Entity {
   set totalSharesInPool(value: BigInt) {
     this.set("totalSharesInPool", Value.fromBigInt(value));
   }
+
+  get performanceFeeTotal(): BigInt {
+    let value = this.get("performanceFeeTotal");
+    return value.toBigInt();
+  }
+
+  set performanceFeeTotal(value: BigInt) {
+    this.set("performanceFeeTotal", Value.fromBigInt(value));
+  }
+
+  get baseFeeTotal(): BigInt {
+    let value = this.get("baseFeeTotal");
+    return value.toBigInt();
+  }
+
+  set baseFeeTotal(value: BigInt) {
+    this.set("baseFeeTotal", Value.fromBigInt(value));
+  }
 }
 
 export class GeneralStatistics extends Entity {

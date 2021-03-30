@@ -42,6 +42,14 @@ export class ProfitDeclared__Params {
   get totalSharesInPool(): BigInt {
     return this._event.parameters[4].value.toBigInt();
   }
+
+  get performanceFeeTotal(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+
+  get baseFeeTotal(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
 }
 
 export class Statistics extends ethereum.SmartContract {
@@ -85,6 +93,14 @@ export class DeclareProfitCall__Inputs {
 
   get totalSharesInPool(): BigInt {
     return this._call.inputValues[4].value.toBigInt();
+  }
+
+  get performanceFeeTotal(): BigInt {
+    return this._call.inputValues[5].value.toBigInt();
+  }
+
+  get baseFeeTotal(): BigInt {
+    return this._call.inputValues[6].value.toBigInt();
   }
 }
 

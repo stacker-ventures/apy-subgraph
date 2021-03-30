@@ -6,7 +6,7 @@ dataSources:
     name: Statistics
     network: ropsten
     source:
-      address: "0x0dF5985B5f91a26864467Dae4e4d2638b8890A50"
+      address: "0x6A295EFEC180f64181Cf42ce981bDaAa2E2CB961"
       abi: Statistics
       startBlock: 9936080
     mapping:
@@ -19,6 +19,6 @@ dataSources:
         - name: Statistics
           file: ./abis/Statistics.json
       eventHandlers:
-        - event: ProfitDeclared(bool,uint256,uint256,uint256,uint256)
+        - event: ProfitDeclared(bool,uint256,uint256,uint256,uint256,uint256,uint256)
           handler: handleProfitDeclared
       file: ./src/mapping.ts

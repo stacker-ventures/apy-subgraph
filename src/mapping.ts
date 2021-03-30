@@ -31,8 +31,10 @@ export function handleProfitDeclared(event: ProfitDeclared): void {
   profit.profit = event.params.profit
   profit.amount = event.params.amount
   profit.timestamp = event.params.timestamp
+  profit.baseFeeTotal = event.params.baseFeeTotal
   profit.totalAmountInPool = event.params.totalAmountInPool
   profit.totalSharesInPool = event.params.totalSharesInPool
+  profit.performanceFeeTotal = event.params.performanceFeeTotal
 
   profit.save()
 
