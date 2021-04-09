@@ -1,5 +1,6 @@
 import { BigDecimal, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
+import { secsToMs } from "./time-utils"
 import { ProfitDeclared } from "../generated/Statistics/Statistics"
 import { Profit, ProfitCounter, GeneralStatistics } from "../generated/schema"
 import { initialCounterHexId, oneInteger, zeroInteger, zeroDecimal, dayInMs, weekInMs, monthInMs, tokenSymbols } from "./constants"
@@ -42,7 +43,7 @@ export function handleProfitDeclared(event: ProfitDeclared): void {
     statistics.APY_past_month = zeroDecimal
   }
 
-  let now = event.block.timestamp
+  let now = secsToMs(event.block.timestamp)
 
   while (nextIdToFetch.gt(zeroInteger)) {
     let previousProfit = Profit.load(nextIdToFetch.toHex())
