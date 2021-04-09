@@ -7,24 +7,15 @@ let oneInteger = BigInt.fromI32(1)
 let zeroInteger = BigInt.fromI32(0)
 let zeroDecimal = zeroInteger.toBigDecimal()
 
+let dayInMs = BigInt.fromI32(86400000)
+let weekInMs = BigInt.fromI32(604800000)
+let monthInMs = BigInt.fromI32(2629800000)
+
+let initialCounterHexId = oneInteger.toHex()
+
 export function handleProfitDeclared(event: ProfitDeclared): void {
-  let dayInMs = BigInt.fromI32(86400000)
-  let weekInMs = BigInt.fromI32(604800000)
-  let monthInMs = BigInt.fromI32(2629800000)
-
   // Handles counter updates
-  let initialCounterHexId = oneInteger.toHex();
-  let counter = ProfitCounter.load(initialCounterHexId)
-
-  if (counter == null) {
-    counter = new ProfitCounter(initialCounterHexId)
-
-    counter.count = oneInteger
-  } else {
-    counter.count = oneInteger.plus(counter.count)
-  }
-
-  counter.save()
+  let counter = increaseProfitCounter()
 
   // Handles profit record creation
   let profit = new Profit(counter.count.toHex())
@@ -83,6 +74,22 @@ export function handleProfitDeclared(event: ProfitDeclared): void {
   }
 
   statistics.save()
+}
+
+function increaseProfitCounter(): ProfitCounter {
+  let counter = ProfitCounter.load(initialCounterHexId)
+
+  if (counter == null) {
+    counter = new ProfitCounter(initialCounterHexId)
+
+    counter.count = oneInteger
+  } else {
+    counter.count = oneInteger.plus(counter.count)
+  }
+
+  counter.save()
+
+  return counter
 }
 
 function calculateAPY(currentProfit: Profit, intervalProfit: Profit): BigDecimal {

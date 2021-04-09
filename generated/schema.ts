@@ -60,6 +60,15 @@ export class Profit extends Entity {
     this.set("amount", Value.fromBigInt(value));
   }
 
+  get tokenSymbol(): string {
+    let value = this.get("tokenSymbol");
+    return value.toString();
+  }
+
+  set tokenSymbol(value: string) {
+    this.set("tokenSymbol", Value.fromString(value));
+  }
+
   get timestamp(): BigInt {
     let value = this.get("timestamp");
     return value.toBigInt();

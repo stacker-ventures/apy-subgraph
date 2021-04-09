@@ -2,6 +2,7 @@ type Profit @entity {
   id: ID!
   profit: Boolean! # bool
   amount: BigInt! # uint256
+  tokenSymbol: String!
   timestamp: BigInt! # uint256
   totalAmountInPool: BigInt! # uint256
   totalSharesInPool: BigInt! # uint256
