@@ -136,40 +136,40 @@ export class GeneralStatistics extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get APY_all_time(): BigInt {
+  get APY_all_time(): BigDecimal {
     let value = this.get("APY_all_time");
-    return value.toBigInt();
+    return value.toBigDecimal();
   }
 
-  set APY_all_time(value: BigInt) {
-    this.set("APY_all_time", Value.fromBigInt(value));
+  set APY_all_time(value: BigDecimal) {
+    this.set("APY_all_time", Value.fromBigDecimal(value));
   }
 
-  get APY_past_day(): BigInt {
+  get APY_past_day(): BigDecimal {
     let value = this.get("APY_past_day");
-    return value.toBigInt();
+    return value.toBigDecimal();
   }
 
-  set APY_past_day(value: BigInt) {
-    this.set("APY_past_day", Value.fromBigInt(value));
+  set APY_past_day(value: BigDecimal) {
+    this.set("APY_past_day", Value.fromBigDecimal(value));
   }
 
-  get APY_past_week(): BigInt {
+  get APY_past_week(): BigDecimal {
     let value = this.get("APY_past_week");
-    return value.toBigInt();
+    return value.toBigDecimal();
   }
 
-  set APY_past_week(value: BigInt) {
-    this.set("APY_past_week", Value.fromBigInt(value));
+  set APY_past_week(value: BigDecimal) {
+    this.set("APY_past_week", Value.fromBigDecimal(value));
   }
 
-  get APY_past_month(): BigInt {
+  get APY_past_month(): BigDecimal {
     let value = this.get("APY_past_month");
-    return value.toBigInt();
+    return value.toBigDecimal();
   }
 
-  set APY_past_month(value: BigInt) {
-    this.set("APY_past_month", Value.fromBigInt(value));
+  set APY_past_month(value: BigDecimal) {
+    this.set("APY_past_month", Value.fromBigDecimal(value));
   }
 }
 

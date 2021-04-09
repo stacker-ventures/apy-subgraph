@@ -1,26 +1,27 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { BigDecimal, BigInt } from "@graphprotocol/graph-ts"
 
 import { ProfitDeclared } from "../generated/Statistics/Statistics"
 import { Profit, ProfitCounter, GeneralStatistics } from "../generated/schema"
+
+let oneInteger = BigInt.fromI32(1)
+let zeroInteger = BigInt.fromI32(0)
+let zeroDecimal = zeroInteger.toBigDecimal()
 
 export function handleProfitDeclared(event: ProfitDeclared): void {
   let dayInMs = BigInt.fromI32(86400000)
   let weekInMs = BigInt.fromI32(604800000)
   let monthInMs = BigInt.fromI32(2629800000)
 
-  let zero = BigInt.fromI32(0)
-  let one = BigInt.fromI32(1)
-
   // Handles counter updates
-  let initialCounterHexId = one.toHex();
+  let initialCounterHexId = oneInteger.toHex();
   let counter = ProfitCounter.load(initialCounterHexId)
 
   if (counter == null) {
     counter = new ProfitCounter(initialCounterHexId)
 
-    counter.count = one
+    counter.count = oneInteger
   } else {
-    counter.count = one.plus(counter.count)
+    counter.count = oneInteger.plus(counter.count)
   }
 
   counter.save()
@@ -49,46 +50,44 @@ export function handleProfitDeclared(event: ProfitDeclared): void {
 
   statistics.APY_all_time = calculateAPY(profit, initialProfit as Profit)
 
-  let nextIdToFetch = counter.count.minus(one)
+  let nextIdToFetch = counter.count.minus(oneInteger)
 
-  if (nextIdToFetch.equals(zero)) {
-    statistics.APY_past_day = zero
-    statistics.APY_past_week = zero
-    statistics.APY_past_month = zero
+  if (nextIdToFetch.equals(zeroInteger)) {
+    statistics.APY_past_day = zeroDecimal
+    statistics.APY_past_week = zeroDecimal
+    statistics.APY_past_month = zeroDecimal
   }
 
   let now = event.block.timestamp
 
-  while (nextIdToFetch.gt(zero)) {
+  while (nextIdToFetch.gt(zeroInteger)) {
     let previousProfit = Profit.load(nextIdToFetch.toHex())
 
     if (previousProfit == null) {
       break;
     }
 
-    if (now.minus(previousProfit.timestamp).ge(monthInMs) && statistics.APY_past_month !== zero) {
+    if (now.minus(previousProfit.timestamp).ge(monthInMs) && statistics.APY_past_month != zeroDecimal) {
       statistics.APY_past_month = calculateAPY(profit, previousProfit as Profit)
 
       break
     }
 
-    if (now.minus(previousProfit.timestamp).ge(weekInMs) && statistics.APY_past_week !== zero) {
+    if (now.minus(previousProfit.timestamp).ge(weekInMs) && statistics.APY_past_week != zeroDecimal) {
       statistics.APY_past_week = calculateAPY(profit, previousProfit as Profit)
-    } else if (now.minus(previousProfit.timestamp).ge(dayInMs) && statistics.APY_past_day !== zero) {
+    } else if (now.minus(previousProfit.timestamp).ge(dayInMs) && statistics.APY_past_day != zeroDecimal) {
       statistics.APY_past_day = calculateAPY(profit, previousProfit as Profit)
     }
 
-    nextIdToFetch = nextIdToFetch.minus(one)
+    nextIdToFetch = nextIdToFetch.minus(oneInteger)
   }
 
   statistics.save()
 }
 
-function calculateAPY(currentProfit: Profit, intervalProfit: Profit): BigInt {
-  let one = BigInt.fromI32(1)
-
-  return currentProfit.totalAmountInPool
-    .div(intervalProfit.totalAmountInPool)
-    .minus(one)
-    .times(BigInt.fromI32(100))
+function calculateAPY(currentProfit: Profit, intervalProfit: Profit): BigDecimal {
+  return currentProfit.totalAmountInPool.toBigDecimal()
+    .div(intervalProfit.totalAmountInPool.toBigDecimal())
+    .minus(oneInteger.toBigDecimal())
+    .times(BigDecimal.fromString('100'))
 }

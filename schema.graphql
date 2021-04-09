@@ -11,10 +11,10 @@ type Profit @entity {
 
 type GeneralStatistics @entity {
   id: ID!
-  APY_all_time: BigInt! # uint256
-  APY_past_day: BigInt! # uint256
-  APY_past_week: BigInt! # uint256
-  APY_past_month: BigInt! # uint256
+  APY_all_time: BigDecimal! # uint256
+  APY_past_day: BigDecimal! # uint256
+  APY_past_week: BigDecimal! # uint256
+  APY_past_month: BigDecimal! # uint256
 }
 
 type ProfitCounter @entity {
