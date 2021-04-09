@@ -1,17 +1,8 @@
-import { BigDecimal, BigInt } from "@graphprotocol/graph-ts"
+import { BigDecimal, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
 import { ProfitDeclared } from "../generated/Statistics/Statistics"
 import { Profit, ProfitCounter, GeneralStatistics } from "../generated/schema"
 
-let oneInteger = BigInt.fromI32(1)
-let zeroInteger = BigInt.fromI32(0)
-let zeroDecimal = zeroInteger.toBigDecimal()
-
-let dayInMs = BigInt.fromI32(86400000)
-let weekInMs = BigInt.fromI32(604800000)
-let monthInMs = BigInt.fromI32(2629800000)
-
-let initialCounterHexId = oneInteger.toHex()
 
 export function handleProfitDeclared(event: ProfitDeclared): void {
   // Handles counter updates
@@ -33,10 +24,10 @@ export function handleProfitDeclared(event: ProfitDeclared): void {
   // APY Calculations...
   let initialProfit = profit.id == initialCounterHexId ? profit : Profit.load(initialCounterHexId)
 
-  let statistics = GeneralStatistics.load(initialCounterHexId)
+  let statistics = GeneralStatistics.load(event.address.toHex())
 
   if (statistics == null) {
-    statistics = new GeneralStatistics(initialCounterHexId)
+    statistics = new GeneralStatistics(event.address.toHex())
   }
 
   statistics.APY_all_time = calculateAPY(profit, initialProfit as Profit)
@@ -76,11 +67,12 @@ export function handleProfitDeclared(event: ProfitDeclared): void {
   statistics.save()
 }
 
-function increaseProfitCounter(): ProfitCounter {
-  let counter = ProfitCounter.load(initialCounterHexId)
+function increaseProfitCounter(event: ethereum.Event): ProfitCounter {
+  let id = event.address.toHex()
+  let counter = ProfitCounter.load(id)
 
   if (counter == null) {
-    counter = new ProfitCounter(initialCounterHexId)
+    counter = new ProfitCounter(id)
 
     counter.count = oneInteger
   } else {
