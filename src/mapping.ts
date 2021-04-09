@@ -2,11 +2,12 @@ import { BigDecimal, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
 import { ProfitDeclared } from "../generated/Statistics/Statistics"
 import { Profit, ProfitCounter, GeneralStatistics } from "../generated/schema"
+import { initialCounterHexId, oneInteger, zeroInteger, zeroDecimal, dayInMs, weekInMs, monthInMs, tokenSymbols } from "./constants"
 
 
 export function handleProfitDeclared(event: ProfitDeclared): void {
   // Handles counter updates
-  let counter = increaseProfitCounter()
+  let counter = increaseProfitCounter(event)
 
   // Handles profit record creation
   let profit = new Profit(counter.count.toHex())
@@ -18,6 +19,7 @@ export function handleProfitDeclared(event: ProfitDeclared): void {
   profit.totalAmountInPool = event.params.totalAmountInPool
   profit.totalSharesInPool = event.params.totalSharesInPool
   profit.performanceFeeTotal = event.params.performanceFeeTotal
+  profit.tokenSymbol = tokenSymbols.get(event.address.toHex()) as string
 
   profit.save()
 
@@ -81,7 +83,7 @@ function increaseProfitCounter(event: ethereum.Event): ProfitCounter {
 
   counter.save()
 
-  return counter
+  return counter as ProfitCounter
 }
 
 function calculateAPY(currentProfit: Profit, intervalProfit: Profit): BigDecimal {
