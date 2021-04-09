@@ -10,9 +10,9 @@ export let monthInMs = BigInt.fromI32(2629800000)
 
 export let initialCounterHexId = oneInteger.toHex()
 
-export const ETH = 'eth'
-export const USDC = 'usdc'
-export const WBTC = 'wbtc'
+export const ETH = 'stackETH'
+export const USDC = 'stackUSDC'
+export const WBTC = 'stackWBTC'
 export const CONTRACT_ETH = '0x0a9f8172e5d3ffa468cc2a1392db2fe394e9090b'
 export const CONTRACT_USDC = '0x5d3f11fb8ef06356b0f5a906847d6171bb08a31a'
 export const CONTRACT_WBTC = ''
