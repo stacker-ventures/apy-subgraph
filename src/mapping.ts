@@ -2,7 +2,7 @@ import { BigDecimal, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
 import { secsToMs } from "./time-utils"
 import { ProfitDeclared } from "../generated/Statistics/Statistics"
-import { Profit, ProfitCounter, GeneralStatistics } from "../generated/schema"
+import { Profit, ProfitCounter, GeneralStatistic } from "../generated/schema"
 import { initialCounterHexId, oneInteger, zeroInteger, zeroDecimal, dayInMs, weekInMs, monthInMs, tokenSymbols } from "./constants"
 
 
@@ -27,10 +27,10 @@ export function handleProfitDeclared(event: ProfitDeclared): void {
   // APY Calculations...
   let initialProfit = profit.id == initialCounterHexId ? profit : Profit.load(initialCounterHexId)
 
-  let statistics = GeneralStatistics.load(event.address.toHex())
+  let statistics = GeneralStatistic.load(event.address.toHex())
 
   if (statistics == null) {
-    statistics = new GeneralStatistics(event.address.toHex())
+    statistics = new GeneralStatistic(event.address.toHex())
   }
 
   statistics.APY_all_time = calculateAPY(profit, initialProfit as Profit)

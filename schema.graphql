@@ -10,7 +10,7 @@ type Profit @entity {
   baseFeeTotal: BigInt!# uint256
 }
 
-type GeneralStatistics @entity {
+type GeneralStatistic @entity {
   id: ID!
   APY_all_time: BigDecimal! # uint256
   APY_past_day: BigDecimal! # uint256

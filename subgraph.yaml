@@ -22,3 +22,43 @@ dataSources:
         - event: ProfitDeclared(bool,uint256,uint256,uint256,uint256,uint256,uint256)
           handler: handleProfitDeclared
       file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: FarmTreasuryETH
+    network: ropsten
+    source:
+      address: "0x0a9f8172e5d3ffa468cc2a1392db2fe394e9090b"
+      abi: Treasury
+      startBlock: 9936080
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - ProfitDeclared
+      abis:
+        - name: Treasury
+          file: ./abis/Treasury.json
+      eventHandlers:
+        - event: ProfitDeclared(bool,uint256,uint256,uint256,uint256,uint256,uint256)
+          handler: handleProfitDeclared
+      file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: FarmTreasuryUSDC
+    network: ropsten
+    source:
+      address: "0x5d3f11fb8ef06356b0f5a906847d6171bb08a31a"
+      abi: Treasury
+      startBlock: 9936080
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - ProfitDeclared
+      abis:
+        - name: Treasury
+          file: ./abis/Treasury.json
+      eventHandlers:
+        - event: ProfitDeclared(bool,uint256,uint256,uint256,uint256,uint256,uint256)
+          handler: handleProfitDeclared
+      file: ./src/mapping.ts
